@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#090807">
-<meta name="description" content="Planet Jumping — step through the portal from Mars to Earth to Venus.">
+<meta name="description" content="Planet Jumping — step through the portal and visit all eight planets of the Solar System.">
 <title>Planet Jumping</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20755%20397'%3E%3Cpath%20fill='%23fff'%20fill-rule='evenodd'%20d='M508.8%20396.2L498%20395.9L497.8%20370.2C497.6%20340.2%20497.6%20317.2%20497.8%20286.3L498%20264.1L557.8%20263.7C615.7%20263.4%20617.8%20263.3%20626%20261.2C644%20256.4%20651.1%20252.9%20674.3%20237.4C699.8%20220.2%20710.3%20215.5%20728.8%20213C733.8%20212.3%20738%20211.5%20738%20211.3C738%20209.8%20730.5%20200.4%20724.5%20194.5C707.6%20177.6%20686.3%20167.1%20658.8%20161.8C648%20159.8%20644.2%20159.7%20572.8%20159.3L498.2%20158.9L497.8%20144.7C497.6%20136.9%20497.5%20115.2%20497.6%2096.5C497.7%2077.8%20497.9%2048.4%20497.9%2031.2L498%200L529.5%200C563.4%200%20573.6%200.7%20592.8%204.6C609%207.8%20623.6%2012.8%20640%2020.6C662.1%2031.2%20678.6%2042.9%20694.7%2059.2C707.5%2072.2%20710.7%2076%20719.3%2089C754.4%20141.7%20764.9%20217.7%20745.3%20276C730.2%20320.9%20701.2%20353.6%20657.5%20375.1C637.9%20384.7%20613.5%20391.6%20589%20394.5C578%20395.8%20531.5%20396.8%20508.8%20396.2ZM0%20292.5C0%20204.6%200.2%20187.4%201.5%20178C7.3%20136.5%2026.9%2098.2%2058.6%2066.5C95.8%2029.2%20144.6%206.4%20198.9%201C204.9%200.4%20238.9%20-0%20280.1%20-0L351%200L351%2080.2L351%20160.5L255.8%20160.5C168.1%20160.5%20159.9%20160.6%20153%20162.3C128%20168.1%20114.6%20183.7%20109.2%20213C107.5%20222.1%20107.4%20232.3%20107.1%20341.8L107%20396L53.5%20396L0%20396L0%20292.5ZM252%20336L252%20276L190.1%20276C156%20276%20127.5%20275.7%20126.6%20275.4C125.2%20274.9%20125%20272.2%20125%20255.6C125%20241.6%20125.4%20234.8%20126.5%20230.5C132.9%20205.9%20152.3%20190.6%20181.5%20187.1C187.3%20186.4%20219.5%20186%20270.8%20186L351%20186L351%20291L351%20396L301.5%20396L252%20396L252%20336ZM384%20199.6C384%2091.6%20384.3%202.5%20384.6%201.6C385.1%200.2%20390.3%200%20432.6%200L480%200L480%20198L480%20396L432%20396L384%20396L384%20199.6Z'/%3E%3C/svg%3E">
 <style>
@@ -44,19 +44,15 @@ html,body,button,a,.portal{cursor:none!important}
 .chrome{position:absolute;z-index:4;transition:opacity .45s ease,filter .45s ease}
 .experience.is-transitioning .chrome{opacity:0;filter:blur(8px);pointer-events:none}
 
-/* Header */
-.header{left:clamp(18px,1.95vw,28px);right:clamp(18px,1.95vw,28px);top:clamp(18px,3.1vh,28px);
-  display:flex;justify-content:space-between;align-items:center}
-.header-actions{margin-left:auto;display:flex;align-items:center}
-.nav{display:flex;align-items:center;height:42px;padding:4px 5px;border:1px solid rgba(255,255,255,.45);
-  background:rgba(255,255,255,.1);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-radius:999px}
-.nav a{color:#fff;text-decoration:none;padding:8px 19px;border-radius:999px;line-height:1}
-.nav a.active{background:#fff;color:#000}
-.menu{height:42px;padding:0 20px;border:0;border-radius:999px;background:#fff;color:#000;cursor:pointer}
-
-/* Sidebar */
-.planet-list{left:clamp(18px,1.95vw,28px);top:50%;transform:translateY(-43%);display:flex;flex-direction:column;gap:6px;font-size:16px}
-.planet-item{display:flex;align-items:center;min-height:20px}
+/* Sidebar: every planet is a button that travels there */
+.planet-list{left:clamp(18px,1.95vw,28px);top:50%;transform:translateY(-43%);display:flex;flex-direction:column;
+  align-items:flex-start;gap:6px;font-size:16px}
+.planet-item{display:flex;align-items:center;min-height:20px;padding:0;border:0;background:none;color:#fff;
+  font-size:inherit;text-align:left;transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.planet-item:hover{transform:translateX(5px)}
+.planet-item.active:hover{transform:none}
+.planet-item:focus{outline:none}
+.planet-item:focus-visible{outline:1px solid rgba(255,255,255,.85);outline-offset:4px;border-radius:4px}
 .planet-item.active{font-size:18px;font-weight:700;gap:8px}
 .planet-item.active:before{content:'';width:16px;height:16px;border-radius:50%;background:#fff}
 
@@ -85,11 +81,10 @@ html,body,button,a,.portal{cursor:none!important}
 
 /* Misc */
 .transition-layer{display:none}
-.scene-canvas{display:none}
 .loading{position:absolute;z-index:12;left:50%;bottom:30px;transform:translateX(-50%);opacity:0;pointer-events:none;
   font-size:12px;letter-spacing:.14em;text-transform:uppercase;transition:opacity .2s}
 .experience.is-loading .loading{opacity:.8}
-.experience.is-transitioning .header,.experience.is-transitioning .planet-list{opacity:1;filter:none;pointer-events:auto}
+.experience.is-transitioning .planet-list{opacity:1;filter:none;pointer-events:auto}
 .experience.is-transitioning .shade{opacity:1}
 .experience.is-committing .background{transition:none!important}
 
@@ -126,7 +121,7 @@ body:not(.preload-complete) .custom-cursor{opacity:0!important}
 .cursor-dot{width:12px;height:12px;background:#fff}
 .cursor-orbit{width:36px;height:36px;border:1px solid #fff;background:rgba(255,255,255,.4);
   transition:transform .3s cubic-bezier(.22,1,.36,1)}
-.custom-cursor.is-enter .cursor-orbit{transform:translate(-50%,-50%) scale(1.16)}
+.custom-cursor.is-enter .cursor-orbit,.custom-cursor.is-hover .cursor-orbit{transform:translate(-50%,-50%) scale(1.16)}
 .cursor-label{position:absolute;top:26px;left:0;transform:translateX(-50%) translateY(-4px);
   font:16px/1.2 'SF Pro',Arial,sans-serif;white-space:nowrap;opacity:0;
   transition:opacity .2s ease,transform .3s cubic-bezier(.22,1,.36,1)}
@@ -136,8 +131,7 @@ body:not(.preload-complete) .custom-cursor{opacity:0!important}
 /* ------------------------------------------------------------------
    Entrance / switch animations
    ------------------------------------------------------------------ */
-body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .fact{opacity:0}
-.intro-ready .header{animation:reveal-down .9s cubic-bezier(.22,1,.36,1) .1s both}
+.planet-list,.planet-content h1,.planet-content .fact{opacity:0}
 .intro-ready .planet-list{animation:reveal-side .9s cubic-bezier(.22,1,.36,1) .65s both}
 .content-revealing h1{animation:title-rise 1.05s cubic-bezier(.16,1,.3,1) both}
 .content-revealing .fact{animation:fact-rise .72s cubic-bezier(.22,1,.36,1) both}
@@ -169,7 +163,6 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
    Responsive
    ------------------------------------------------------------------ */
 @media(max-width:900px){
-  .nav{display:none}
   .portal-wrap{width:min(300px,48vw)}
   .planet-content h1{--title-shift:-.06em;font-size:clamp(105px,24vw,190px)}
   .planet-content dl{width:43vw}
@@ -187,7 +180,6 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   .fact{grid-template-columns:92px 1fr;padding:5px 0}
   .portal-heading{font-size:14px}
   .portal-heading strong{font-size:16px}
-  .menu{height:38px}
   .portal{border-radius:70px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -213,19 +205,9 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
     <span id="preloader-value">0</span><span class="percent">%</span>
   </div>
 
-  <canvas id="scene-canvas" class="scene-canvas" aria-hidden="true"></canvas>
   <div class="shade" aria-hidden="true"></div>
 
-  <header class="header chrome">
-    <div class="header-actions">
-      <nav class="nav" aria-label="Primary navigation">
-        <a class="active" href="#about">About</a><a href="#explore">Explore</a><a href="#planets">Planets</a>
-      </nav>
-      <button class="menu" type="button">Menu</button>
-    </div>
-  </header>
-
-  <aside class="planet-list chrome" aria-label="Planets"></aside>
+  <nav class="planet-list chrome" aria-label="Planets"></nav>
 
   <canvas id="portal-canvas" class="portal-canvas" aria-hidden="true"></canvas>
   <section class="portal-wrap chrome" aria-label="Next destination">
@@ -261,37 +243,117 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   const BASE = 'https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P';
   const TO_EARTH = `${BASE}/fc3ded42-e845-41f3-a830-5cab512d79cd.mp4`;
   const TO_VENUS = `${BASE}/b30f64d9-1637-477a-83df-d0fc6461a422.mp4`;
-  const MERCURY  = `${BASE}/d6fb8b6b-c15e-4aaa-9cf7-45bbb5e33372.jpg`;
 
-  const planets = ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune'];
+  // The sidebar lists planets outward from the Sun; the portal walks TOUR in a loop.
+  const SOLAR = ['mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune'];
+  const TOUR  = ['mars', 'earth', 'venus', 'mercury', 'jupiter', 'saturn', 'uranus', 'neptune'];
+  const nextOf = key => TOUR[(TOUR.indexOf(key) + 1) % TOUR.length];
+  const numberOf = key => `[0${SOLAR.indexOf(key) + 1}]`;
 
+  const STILL_ZOOM = 1.1;           // a photo destination pushes in by this much on arrival
+  const GAS = 0, ROCK = 1, OCEAN = 2;
+
+  /*
+    Every planet has a `look`, used by the WebGL renderer. Jupiter to Neptune are
+    always drawn this way; the others use their video or photo and only fall back
+    to the renderer if that media cannot load.
+      close / horizon  camera distance (planet radii) and where the horizon sits (0 = top)
+      roll / tilt      axis orientation in degrees; bank tilts the camera horizon
+      spot             [latitude, longitude, size, strength] of a storm, radians
+      ring             [inner, outer, opacity, style 0 = broad, 1 = thin ringlets]
+  */
   const states = {
     mars: {
-      name: 'Mars', next: 'Earth', number: '[03]', portal: TO_EARTH, background: 'mars-background',
+      name: 'Mars', still: 'intro',
       facts: [
         ['Distance:', 'About 228 million km (1.5 astronomical units).'],
         ['Year:', 'One Martian year is equal to 687 Earth days.'],
         ['Temperature:', 'Around -60 °C, dropping to -125 °C at the poles in winter.'],
         ['Atmosphere:', 'Very thin, consisting of 95% carbon dioxide, with frequent dust storms.']
-      ]
+      ],
+      look: { kind: ROCK, colors: ['#7c341b', '#b55b2d', '#d48c58', '#4f2213'], craters: .22, ice: 1, spin: .004,
+              atmo: '#f0ad80', atmoStrength: .45, haze: .02, roll: -12, tilt: 8, close: 1.2, horizon: .16, bank: -4, seed: 3 }
     },
     earth: {
-      name: 'Earth', next: 'Venus', number: '[02]', portal: TO_VENUS, background: 'earth-background',
+      name: 'Earth', clip: TO_EARTH,
       facts: [
         ['Distance:', '149.6 million km from the Sun.'],
         ['Year:', '365.25 Earth days.'],
         ['Temperature:', 'Average surface temperature around 15 °C.'],
         ['Atmosphere:', 'Mostly nitrogen and oxygen, supporting life and liquid water.']
-      ]
+      ],
+      look: { kind: OCEAN, colors: ['#03122b', '#0a3a66', '#2c4a1e', '#8a7550'], spin: .004,
+              atmo: '#77aaff', atmoStrength: 1, haze: .035, roll: -20, tilt: 14, close: 1.22, horizon: .16, bank: 3, seed: 7 }
     },
     venus: {
-      name: 'Venus', next: 'Mercury', number: '[06]', image: MERCURY, background: 'venus-background',
+      name: 'Venus', clip: TO_VENUS,
       facts: [
         ['Distance:', '108.2 million km from the Sun.'],
         ['Year:', '225 Earth days.'],
         ['Temperature:', 'Around 465 °C — the hottest planet in the Solar System.'],
         ['Atmosphere:', 'Extremely dense, mostly carbon dioxide, with clouds of sulfuric acid.']
-      ]
+      ],
+      look: { kind: GAS, colors: ['#b4733a', '#e9c27f', '#f4dcad', '#d9b07a'], bands: 4, turbulence: 3, contrast: .15, spin: .003,
+              atmo: '#ffdaa6', atmoStrength: .8, haze: .05, roll: 24, tilt: 0, close: 1.2, horizon: .13, bank: 0, seed: 11 }
+    },
+    mercury: {
+      name: 'Mercury', still: 'image',
+      facts: [
+        ['Distance:', '57.9 million km from the Sun (0.39 AU).'],
+        ['Year:', '88 Earth days — the shortest in the Solar System.'],
+        ['Temperature:', 'From 430 °C by day to -180 °C at night.'],
+        ['Atmosphere:', 'Almost none — a thin exosphere of oxygen, sodium, hydrogen and helium.']
+      ],
+      look: { kind: ROCK, colors: ['#4b4642', '#827a72', '#aca398', '#322e2b'], craters: 1.1, ice: 0, spin: .003,
+              atmo: '#000000', atmoStrength: 0, haze: .02, roll: -8, tilt: 4, close: 1.18, horizon: .15, bank: -5, seed: 19 }
+    },
+    jupiter: {
+      name: 'Jupiter',
+      facts: [
+        ['Distance:', '778 million km from the Sun (5.2 AU).'],
+        ['Year:', 'About 12 Earth years (4,333 Earth days).'],
+        ['Temperature:', 'Around -110 °C at the cloud tops.'],
+        ['Atmosphere:', 'Mostly hydrogen and helium; the Great Red Spot is a storm wider than Earth.']
+      ],
+      look: { kind: GAS, colors: ['#8c5a3d', '#ece0c9', '#c8864f', '#8b8f96'], bands: 17, turbulence: 1.5, contrast: .55, spin: .006,
+              spot: [-.38, 1.85, .12, 1], spotColor: '#b8502b',
+              atmo: '#eadcc4', atmoStrength: .35, haze: .025, roll: 172, tilt: 0, close: 1.3, horizon: .15, bank: 2, seed: 23 }
+    },
+    saturn: {
+      name: 'Saturn',
+      facts: [
+        ['Distance:', '1.43 billion km from the Sun (9.5 AU).'],
+        ['Year:', 'About 29 Earth years (10,759 Earth days).'],
+        ['Temperature:', 'Around -140 °C at the cloud tops.'],
+        ['Atmosphere:', 'Mostly hydrogen and helium, circled by rings of ice and rock.']
+      ],
+      look: { kind: GAS, colors: ['#a88a5c', '#e9d7aa', '#cfae74', '#9ea3a3'], bands: 14, turbulence: .55, contrast: .3, spin: .005,
+              ring: [1.24, 2.27, .95, 0], ringColor: '#ddcba3',
+              atmo: '#f1e2bb', atmoStrength: .3, haze: .025, roll: -14, tilt: 16, close: 3.3, horizon: .1, bank: -3, extent: 2.3, seed: 29 }
+    },
+    uranus: {
+      name: 'Uranus',
+      facts: [
+        ['Distance:', '2.87 billion km from the Sun (19.2 AU).'],
+        ['Year:', '84 Earth years — and it spins tipped over on its side.'],
+        ['Temperature:', 'Around -195 °C, dipping to -224 °C, the coldest in the Solar System.'],
+        ['Atmosphere:', 'Hydrogen, helium and methane, which gives it a blue-green color.']
+      ],
+      look: { kind: GAS, colors: ['#7fc3cb', '#b3e3e5', '#9ad5da', '#c8eeee'], bands: 8, turbulence: .35, contrast: .18, spin: .004,
+              ring: [1.6, 2.04, .6, 1], ringColor: '#b4c3c6',
+              atmo: '#c6f3f5', atmoStrength: .45, haze: .03, roll: 82, tilt: 16, close: 1.55, horizon: .17, bank: 0, extent: 1.4, seed: 31 }
+    },
+    neptune: {
+      name: 'Neptune',
+      facts: [
+        ['Distance:', '4.5 billion km from the Sun (30 AU).'],
+        ['Year:', '165 Earth years.'],
+        ['Temperature:', 'Around -200 °C at the cloud tops.'],
+        ['Atmosphere:', 'Hydrogen, helium and methane, with winds faster than 2,000 km/h.']
+      ],
+      look: { kind: GAS, colors: ['#203c8a', '#3b63c4', '#5a88e0', '#2b4ca3'], bands: 10, turbulence: .9, contrast: .35, spin: .006,
+              spot: [-.36, 1.9, .1, 1], spotColor: '#132455', streaks: .55,
+              atmo: '#5b8cff', atmoStrength: .7, haze: .03, roll: 168, tilt: 0, close: 1.3, horizon: .15, bank: -2, seed: 37 }
     }
   };
 
@@ -306,8 +368,6 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   const preloaderCount  = $('preloader-count');
   const preloaderValue  = $('preloader-value');
   const floatingLogo    = $('floating-logo');
-  const sceneCanvas     = $('scene-canvas');
-  const sceneCtx        = sceneCanvas.getContext('2d');
   const canvas          = $('portal-canvas');
   const ctx             = canvas.getContext('2d');
   const planetList      = document.querySelector('.planet-list');
@@ -332,10 +392,17 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   let expansion = 0;            // 0 = portal window, 1 = full viewport
   let maskScale = 0;            // grows 0 -> 1 when the window opens
   let canvasOpacity = 1;
-  let transitionActive = false;
-  let frozen = false;           // #scene-canvas holds the last transition frame
   let portalRadius = 90;
   let lastFrame = performance.now();
+
+  // What sits behind the portal. 'dom' = the intro video element shows through.
+  let scene = { mode: 'dom' };
+  let travelState = null;       // { target, arrival, approach, zoom, speed } while travelling
+  let pendingTarget = null;     // destination chosen while its clip is still loading
+  let portalVideoKey = 'earth'; // which planet's clip #portal-video holds
+  const failed = new Set();     // planets whose video/photo could not load
+  const stills = {};            // captured last frames, keyed by planet
+  const epochs = {};            // per-planet clock start (keeps spin continuous)
 
   /* ----------------------------------------------------------------
      Helpers
@@ -344,17 +411,19 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
   const nextFrame = () => new Promise(resolve => requestAnimationFrame(resolve));
 
-  function animateValue(setter, duration) {
+  // Calls fn with raw progress 0..1 every frame for `duration` ms.
+  function animate(fn, duration) {
     return new Promise(resolve => {
       const start = performance.now();
       const step = now => {
         const t = Math.min(1, Math.max(0, (now - start) / duration));
-        setter(ease(t));
+        fn(t);
         if (t < 1) requestAnimationFrame(step); else resolve();
       };
       requestAnimationFrame(step);
     });
   }
+  const animateValue = (setter, duration) => animate(t => setter(ease(t)), duration);
 
   // Resolve on the first of several events, or after `timeout` ms.
   function waitFor(target, events, timeout) {
@@ -371,9 +440,11 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   }
 
   function waitForMedia(media, timeout = 4000) {
+    if (!media) return Promise.resolve();
     if (media instanceof HTMLImageElement) {
       return media.complete ? Promise.resolve() : waitFor(media, ['load', 'error'], timeout);
     }
+    if (!(media instanceof HTMLVideoElement)) return Promise.resolve();
     if (media.readyState >= 2 || media.error) return Promise.resolve();
     return waitFor(media, ['loadeddata', 'canplay', 'error'], timeout);
   }
@@ -393,42 +464,100 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
     el.classList.add(className);
   }
 
-  const currentPortalMedia = () => (states[current].image ? portalImage : portalVideo);
+  function hexToRgb(hex) {
+    const n = parseInt(hex.slice(1), 16);
+    return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255];
+  }
+
+  // Copies the current frame of a video into a canvas so it can be shown later.
+  function captureFrame(video) {
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh || video.readyState < 2) return null;
+    const s = Math.min(1, 2560 / vw);
+    const still = document.createElement('canvas');
+    still.width = Math.round(vw * s);
+    still.height = Math.round(vh * s);
+    still.getContext('2d').drawImage(video, 0, 0, still.width, still.height);
+    return still;
+  }
+
+  function clockOf(key, now) {
+    if (epochs[key] === undefined) epochs[key] = now;
+    return (now - epochs[key]) / 1000;
+  }
+
+  /* ----------------------------------------------------------------
+     Where each planet's picture comes from
+     ---------------------------------------------------------------- */
+  function stillMedia(key) {
+    if (key === 'mercury') {
+      return portalImage.complete && portalImage.naturalWidth >= 720 ? portalImage : null;
+    }
+    if (key === 'mars' && !stills.mars && preloaderVideo.ended) stills.mars = captureFrame(preloaderVideo);
+    return stills[key] || null;
+  }
+
+  // How the trip to `key` will look: its video, a photo, or the WebGL renderer.
+  function arrivalOf(key) {
+    const state = states[key];
+    if (!failed.has(key)) {
+      if (state.clip) return { mode: 'clip', clip: state.clip };
+      if (state.still) {
+        const media = stillMedia(key);
+        if (media) return { mode: 'still', media };
+      }
+    }
+    return { mode: 'render' };
+  }
+
+  function previewMedia(key) {
+    const arrival = arrivalOf(key);
+    if (arrival.mode === 'clip') return portalVideo;
+    return arrival.mode === 'still' ? arrival.media : null;
+  }
 
   /* ----------------------------------------------------------------
      Rendering of DOM state
      ---------------------------------------------------------------- */
   function render() {
     const state = states[current];
+    const next = nextOf(current);
     experience.dataset.planet = current;
     title.textContent = state.name.toUpperCase();
-    nextName.textContent = state.next;
-    nextNumber.textContent = state.number;
-    portal.setAttribute('aria-label', `Travel to ${state.next}`);
-    portal.toggleAttribute('aria-disabled', current === 'venus');
+    setHeading(next);
 
     facts.innerHTML = state.facts
       .map(([key, value]) => `<div class="fact"><dt>${key}</dt><dd>${value}</dd></div>`)
       .join('');
 
-    planetList.innerHTML = planets
-      .map(name => `<span class="planet-item${name === state.name ? ' active' : ''}">${name}</span>`)
+    planetList.innerHTML = SOLAR
+      .map(key => {
+        const active = key === current;
+        return `<button type="button" class="planet-item${active ? ' active' : ''}" data-planet="${key}"` +
+          `${active ? ' aria-current="true"' : ''}>${states[key].name}</button>`;
+      })
       .join('');
+    cursor.classList.remove('is-hover');
     if (rendered) retrigger(planetList, 'is-switching');
     rendered = true;
 
-    backgrounds.forEach(video => video.classList.toggle('is-visible', video.id === state.background));
+    backgrounds.forEach(video => video.classList.toggle('is-visible', video.id === `${current}-background`));
 
-    if (state.image) {
-      portalImage.hidden = false;
-      portalVideo.hidden = true;
-    } else {
-      portalImage.hidden = true;
-      portalVideo.hidden = false;
-      if (portalVideo.src !== state.portal) portalVideo.src = state.portal;
+    // Prepare the portal's preview of the next stop.
+    epochs[next] = performance.now();
+    if (states[next].clip && portalVideoKey !== next) {
+      portalVideoKey = next;
+      portalVideo.src = states[next].clip;
     }
 
     fitTitle();
+  }
+
+  function setHeading(key) {
+    nextName.textContent = states[key].name;
+    nextNumber.textContent = numberOf(key);
+    portal.setAttribute('aria-label', `Travel to ${states[key].name}`);
   }
 
   // Keeps the giant title inside its column when the display face is
@@ -446,35 +575,490 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   }
 
   /* ----------------------------------------------------------------
-     Canvas
+     WebGL planet renderer
      ---------------------------------------------------------------- */
-  function sizeCanvas(target, context, d) {
-    target.width = innerWidth * d;
-    target.height = innerHeight * d;
-    target.style.width = `${innerWidth}px`;
-    target.style.height = `${innerHeight}px`;
-    context.setTransform(d, 0, 0, d, 0, 0);
+  const VERTEX_SHADER = `
+attribute vec2 aPos;
+void main() { gl_Position = vec4(aPos, 0.0, 1.0); }`;
+
+  const FRAGMENT_SHADER = `
+#ifdef GL_FRAGMENT_PRECISION_HIGH
+precision highp float;
+#else
+precision mediump float;
+#endif
+uniform vec2 uRes;      // size of the region being drawn, in buffer pixels
+uniform vec4 uRect;     // the same region in CSS pixels (x, y, w, h)
+uniform vec2 uView;     // viewport size in CSS pixels
+uniform vec2 uCenter;   // optical centre in CSS pixels
+uniform float uFocal, uDist, uPitch, uBank, uTime, uSpeed, uSeed, uPix;
+uniform mat3 uOrient;   // world -> planet frame
+uniform vec3 uLight;
+uniform float uKind;
+uniform vec3 uC0, uC1, uC2, uC3;
+uniform vec4 uGas;      // bands, turbulence, contrast, streaks
+uniform vec4 uSpot;     // lat, lon, size, strength
+uniform vec3 uSpotCol;
+uniform vec4 uRing;     // inner, outer, opacity, style
+uniform vec3 uRingCol;
+uniform vec4 uAtmo;     // rgb, strength
+uniform vec4 uRock;     // craters, ice, spin, haze height
+
+const float PI = 3.14159265;
+
+float hash11(float p) { p = fract(p * 0.1031); p *= p + 33.33; p *= p + p; return fract(p); }
+float hash12(vec2 p) { vec3 q = fract(vec3(p.xyx) * 0.1031); q += dot(q, q.yzx + 33.33); return fract((q.x + q.y) * q.z); }
+float hash13(vec3 p) { p = fract(p * 0.1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y) * p.z); }
+
+float noise1(float x) {
+  float i = floor(x), f = fract(x);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(hash11(i), hash11(i + 1.0), f);
+}
+float noise3(vec3 x) {
+  vec3 i = floor(x), f = fract(x);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(mix(hash13(i), hash13(i + vec3(1, 0, 0)), f.x),
+                 mix(hash13(i + vec3(0, 1, 0)), hash13(i + vec3(1, 1, 0)), f.x), f.y),
+             mix(mix(hash13(i + vec3(0, 0, 1)), hash13(i + vec3(1, 0, 1)), f.x),
+                 mix(hash13(i + vec3(0, 1, 1)), hash13(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+}
+float fbm(vec3 p) {
+  float s = 0.0, a = 0.5;
+  for (int i = 0; i < 5; i++) { s += a * noise3(p); p = p * 2.03 + vec3(17.1, 3.7, 9.2); a *= 0.5; }
+  return s / 0.96875;
+}
+float fbm3(vec3 p) {
+  float s = 0.0, a = 0.5;
+  for (int i = 0; i < 3; i++) { s += a * noise3(p); p = p * 2.07 + vec3(5.3, 11.9, 2.1); a *= 0.5; }
+  return s / 0.875;
+}
+vec3 rotY(vec3 p, float a) { float c = cos(a), s = sin(a); return vec3(c * p.x - s * p.z, p.y, s * p.x + c * p.z); }
+float angDiff(float a, float b) { return mod(a - b + PI, 2.0 * PI) - PI; }
+float bump(float r, float c, float w) { float x = (r - c) / w; return exp(-x * x); }
+
+/* ---------- gas giants (and Venus' clouds) ---------- */
+vec3 gasColor(vec3 p, float t) {
+  float lat = asin(clamp(p.y, -1.0, 1.0));
+  // zonal winds: neighbouring bands drift at slightly different rates
+  vec3 q = rotY(p, t * (uRock.z + 0.0025 * sin(lat * uGas.x * 0.5)));
+  float w1 = fbm3(q * vec3(1.7, 5.0, 1.7) + vec3(uSeed, 0.0, t * 0.012));
+  float w2 = fbm(q * vec3(3.6, 17.0, 3.6) + vec3(w1 * 2.6, uSeed, w1 * 1.9));
+  // finer eddies, only worth computing when the camera is close
+  float near = smoothstep(5.0, 1.6, uDist);
+  float w3 = near > 0.0 ? fbm3(q * vec3(11.0, 46.0, 11.0) + vec3(w2 * 3.0, uSeed, w1 * 2.0)) : 0.5;
+  float spot = 0.0, rs = 9.0;
+  if (uSpot.w > 0.0) {
+    vec2 sd = vec2(angDiff(atan(q.z, q.x), uSpot.y) * cos(lat) / (uSpot.z * 1.7), (lat - uSpot.x) / uSpot.z);
+    rs = length(sd);
+    if (rs < 1.6) {
+      spot = 1.0 - smoothstep(0.7, 1.05, rs);
+      float ang = atan(sd.y, sd.x) + (1.0 - min(rs, 1.0)) * 5.0 + t * 0.05;
+      float swirl = fbm3(vec3(cos(ang) * rs * 3.0, sin(ang) * rs * 3.0, uSeed + t * 0.02));
+      w2 = mix(w2, swirl, spot);
+      lat += sd.y * uSpot.z * exp(-rs * rs * 1.5) * 0.7;
+    }
+  }
+  float y = lat + ((w1 - 0.5) * 0.16 + (w2 - 0.5) * 0.1 + (w3 - 0.5) * 0.035 * near) * uGas.y;
+  float v = noise1(y * uGas.x * 0.55 + uSeed);
+  float zone = smoothstep(-0.45, 0.45, sin(y * uGas.x) + (v - 0.5) * 1.1);
+  vec3 col = mix(uC0, uC1, zone);
+  col = mix(col, uC2, smoothstep(0.5, 0.85, noise1(y * uGas.x * 0.31 + 7.0 + uSeed)) * 0.75);
+  col *= 1.0 + ((w2 - 0.5) + (w3 - 0.5) * 0.8 * near) * uGas.z;
+  col = mix(col, uC3, smoothstep(0.75, 1.35, abs(lat)));
+  if (uSpot.w > 0.0) {
+    float collar = smoothstep(0.7, 1.0, rs) * (1.0 - smoothstep(1.0, 1.4, rs));
+    col = mix(col, uSpotCol * (0.8 + 0.45 * w2), spot * uSpot.w);
+    col = mix(col, uC1 * 1.04, collar * 0.4 * uSpot.w);
+  }
+  if (uGas.w > 0.0) {
+    float s = smoothstep(0.6, 0.74, fbm3(q * vec3(2.4, 20.0, 2.4) + vec3(uSeed * 3.0, 0.0, t * 0.01)));
+    col = mix(col, vec3(0.9, 0.94, 1.0), s * uGas.w);
+  }
+  return col;
+}
+
+/* ---------- rocky worlds ---------- */
+float crater(vec3 p, float scale, float seed) {
+  vec3 c = p * scale;
+  vec3 id = floor(c);
+  if (hash13(id + seed) < 0.5) return 0.0;
+  vec3 ctr = 0.3 + 0.4 * vec3(hash13(id + seed + 1.7), hash13(id + seed + 4.3), hash13(id + seed + 8.9));
+  float rad = 0.1 + 0.18 * hash13(id + seed + 13.1);
+  float d = length(c - id - ctr) / rad;
+  float bowl = d < 1.0 ? d * d - 1.0 : 0.0;
+  float rim = exp(-(d - 1.0) * (d - 1.0) * 18.0) * 0.45;
+  return (bowl * 0.8 + rim) * rad / scale;
+}
+float craters(vec3 p) {
+  return crater(p, 5.0, 0.0) + crater(p, 11.0, 21.0) + crater(p, 23.0, 43.0) + crater(p, 49.0, 67.0) * 0.8;
+}
+vec3 rockColor(vec3 q) {
+  float n1 = fbm(q * 2.2 + uSeed);
+  float n2 = fbm3(q * 8.0 + uSeed * 1.3);
+  vec3 col = mix(uC0, uC1, smoothstep(0.3, 0.72, n1));
+  col = mix(col, uC2, smoothstep(0.5, 0.8, n2) * 0.45);
+  col = mix(col, uC3, smoothstep(0.56, 0.7, fbm3(q * 1.4 + uSeed + 5.0)) * 0.7);
+  col = mix(col, vec3(0.94, 0.92, 0.9), uRock.y * smoothstep(0.86, 0.92, abs(q.y) + (n2 - 0.5) * 0.12));
+  return col;
+}
+
+/* ---------- ocean world (fallback Earth) ---------- */
+vec3 earthColor(vec3 q, vec3 qc, out float water, out float cloud) {
+  float n = fbm(q * 1.9 + uSeed) * 0.8 + fbm3(q * 7.0) * 0.2;
+  float land = smoothstep(0.53, 0.56, n);
+  vec3 ocean = mix(uC0, uC1, smoothstep(0.38, 0.54, n));
+  float dry = fbm3(q * 3.5 + 11.0) + (0.3 - abs(q.y)) * 0.35;
+  vec3 ground = mix(uC2, uC3, smoothstep(0.45, 0.62, dry));
+  vec3 col = mix(ocean, ground, land);
+  float ice = smoothstep(0.8, 0.86, abs(q.y) + (n - 0.5) * 0.25);
+  col = mix(col, vec3(0.92, 0.94, 0.96), ice);
+  water = (1.0 - land) * (1.0 - ice);
+  float c1 = fbm(qc * 3.0 + vec3(0.0, uSeed, 0.0));
+  float c2 = fbm3(qc * vec3(4.0, 9.0, 4.0) + c1 * 2.0);
+  cloud = smoothstep(0.5, 0.72, c1 * 0.6 + c2 * 0.4);
+  return mix(col, vec3(0.96), cloud * 0.92);
+}
+
+/* ---------- rings ---------- */
+float ringDensity(float r) {
+  if (r < uRing.x || r > uRing.y) return 0.0;
+  float d;
+  if (uRing.w < 0.5) {
+    float x = (r - uRing.x) / (uRing.y - uRing.x);
+    d = 0.55 + 0.3 * noise1(r * 38.0) + 0.15 * noise1(r * 140.0);
+    d *= x < 0.28 ? 0.35 : (x < 0.69 ? 1.15 : 0.8);                     // C, B and A rings
+    d *= 1.0 - 0.92 * (smoothstep(0.68, 0.695, x) - smoothstep(0.75, 0.765, x)); // Cassini division
+    d *= 1.0 - 0.6 * (smoothstep(0.935, 0.94, x) - smoothstep(0.948, 0.953, x)); // Encke gap
+    d *= smoothstep(0.0, 0.01, x) * smoothstep(1.0, 0.99, x);
+  } else {
+    d = bump(r, 1.64, 0.004) * 0.5 + bump(r, 1.67, 0.004) * 0.5 + bump(r, 1.70, 0.004) * 0.5
+      + bump(r, 1.75, 0.006) * 0.7 + bump(r, 1.79, 0.006) * 0.7 + bump(r, 1.85, 0.005) * 0.6
+      + bump(r, 1.88, 0.005) * 0.6 + bump(r, 1.92, 0.006) * 0.7 + bump(r, 2.0, 0.014);
+  }
+  return clamp(d, 0.0, 1.0) * uRing.z;
+}
+
+/* ---------- stars ---------- */
+vec3 starLayer(vec3 d, float scale, float keep, float seed) {
+  vec3 c = d * scale;
+  vec3 id = floor(c);
+  float h = hash13(id + seed);
+  if (h > keep) return vec3(0.0);
+  vec3 o = vec3(hash13(id + seed + 3.1), hash13(id + seed + 7.7), hash13(id + seed + 1.9));
+  float size = uPix * scale * 1.5;
+  float b = smoothstep(size, size * 0.1, length(c - id - o)) * (0.3 + 0.7 * hash13(id + seed + 5.5));
+  return mix(vec3(1.0, 0.86, 0.72), vec3(0.76, 0.85, 1.0), hash13(id + seed + 9.4)) * b;
+}
+vec3 stars(vec3 d) {
+  return starLayer(d, 70.0, 0.09, 0.0) + starLayer(d, 180.0, 0.07, 41.0) * 0.7;
+}
+vec3 starfield(vec3 rd, vec3 fwd) {
+  if (uSpeed < 0.02) return stars(rd);
+  vec3 acc = vec3(0.0);
+  for (int k = 0; k < 5; k++) acc += stars(normalize(rd + (rd - fwd) * uSpeed * 0.1 * float(k) / 4.0));
+  return acc * 0.45;
+}
+
+void main() {
+  vec2 css = uRect.xy + vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y) / uRes * uRect.zw;
+  vec2 px = css - uCenter;
+  float cb = cos(uBank), sb = sin(uBank);
+  px = vec2(cb * px.x - sb * px.y, sb * px.x + cb * px.y);
+  vec3 rd = normalize(vec3(px.x, -px.y, -uFocal));
+  float cp = cos(uPitch), sp = sin(uPitch);
+  rd = vec3(rd.x, cp * rd.y - sp * rd.z, sp * rd.y + cp * rd.z);
+  vec3 fwd = vec3(0.0, sp, -cp);
+  vec3 ro = vec3(0.0, 0.0, uDist);
+  vec3 L = uLight;
+
+  float b = dot(ro, rd);
+  float disc = b * b - (dot(ro, ro) - 1.0);
+  float tPlanet = 1e9;
+  if (disc > 0.0) { float tt = -b - sqrt(disc); if (tt > 0.0) tPlanet = tt; }
+
+  vec3 col;
+  if (tPlanet > 1e8) {
+    col = starfield(rd, fwd);
+    // atmosphere glow around the limb
+    vec3 cpt = ro + rd * max(-b, 0.0);
+    float lit = smoothstep(-0.35, 0.55, dot(normalize(cpt), L));
+    col += uAtmo.rgb * exp(-(length(cpt) - 1.0) / uRock.w) * uAtmo.w * lit;
+  } else {
+    vec3 n = normalize(ro + rd * tPlanet);
+    vec3 p = uOrient * n;
+    float ndl = dot(n, L);
+    float mu = max(dot(n, -rd), 0.0);
+    if (uKind < 0.5) {
+      vec3 surf = gasColor(p, uTime) * mix(0.62, 1.0, pow(mu, 0.45));
+      col = surf * (smoothstep(-0.12, 0.65, ndl) * 1.08 + 0.012);
+    } else if (uKind < 1.5) {
+      float spin = uTime * uRock.z;
+      vec3 q = rotY(p, spin);
+      vec3 Lq = rotY(uOrient * L, spin);
+      float relief = 0.0;
+      if (uRock.x > 0.0 && ndl > -0.1) {
+        vec3 Lt = normalize(Lq - q * ndl + vec3(1e-5));
+        relief = (craters(q) - craters(normalize(q + Lt * 0.0025))) / 0.0025 * uRock.x;
+      }
+      float light = clamp(ndl + relief * sqrt(max(0.0, 1.0 - ndl * ndl)), 0.0, 1.5) * smoothstep(-0.08, 0.1, ndl);
+      col = rockColor(q) * (light + 0.01);
+    } else {
+      float water, cloud;
+      vec3 q = rotY(p, uTime * uRock.z);
+      vec3 qc = rotY(p, uTime * uRock.z * 1.35 + 0.7);
+      col = earthColor(q, qc, water, cloud) * (smoothstep(-0.08, 0.5, ndl) + 0.01);
+      float spec = pow(max(dot(reflect(-L, n), -rd), 0.0), 30.0);
+      col += vec3(1.0, 0.95, 0.85) * spec * water * (1.0 - cloud) * 0.45 * step(0.0, ndl);
+    }
+    // shadow of the rings on the cloud tops
+    if (uRing.z > 0.0) {
+      vec3 Lp = uOrient * L;
+      if (abs(Lp.y) > 1e-4) {
+        float ts = -p.y / Lp.y;
+        if (ts > 0.0) col *= 1.0 - 0.7 * ringDensity(length((p + Lp * ts).xz));
+      }
+    }
+    float rim = pow(1.0 - mu, 2.5);
+    col = mix(col, uAtmo.rgb * smoothstep(-0.3, 0.6, ndl), clamp(rim * uAtmo.w, 0.0, 1.0) * 0.75);
+    // anti-alias the limb: fade into the glow over about one pixel
+    float dmin = sqrt(max(0.0, dot(ro, ro) - b * b));
+    float cover = clamp((1.0 - dmin) / max(uPix * -b * 1.5, 1e-6), 0.0, 1.0);
+    col = mix(uAtmo.rgb * uAtmo.w * smoothstep(-0.35, 0.55, ndl), col, cover);
   }
 
+  if (uRing.z > 0.0) {
+    vec3 po = uOrient * ro;
+    vec3 pd = uOrient * rd;
+    if (abs(pd.y) > 1e-5) {
+      float tr = -po.y / pd.y;
+      if (tr > 0.0 && tr < tPlanet) {
+        vec3 hp = po + pd * tr;
+        float r = length(hp.xz);
+        float a = ringDensity(r);
+        if (a > 0.0) {
+          vec3 Lp = uOrient * L;
+          float sb2 = dot(hp, Lp);
+          float shadow = (sb2 < 0.0 && sb2 * sb2 - (dot(hp, hp) - 1.0) > 0.0) ? 0.1 : 1.0;
+          vec3 rc = uRingCol * (0.78 + 0.45 * noise1(r * 60.0 + uSeed)) * (0.35 + 0.65 * min(1.0, abs(Lp.y) * 3.0)) * shadow;
+          col = mix(col, rc, a);
+        }
+      }
+    }
+  }
+
+  vec2 vp = css / uView - 0.5;
+  col *= 1.0 - 0.3 * dot(vp, vp);
+  col += (hash12(gl_FragCoord.xy + fract(uTime * 13.0) * 371.0) - 0.5) * 0.025;
+  gl_FragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+}`;
+
+  const LIGHT = (() => {
+    const v = [-.5, .38, .78];
+    const l = Math.hypot(...v);
+    return v.map(x => x / l);
+  })();
+
+  function prepareLook(look) {
+    const rad = Math.PI / 180;
+    const ct = Math.cos((look.tilt || 0) * rad), st = Math.sin((look.tilt || 0) * rad);
+    const cr = Math.cos((look.roll || 0) * rad), sr = Math.sin((look.roll || 0) * rad);
+    // R = Rz(roll)·Rx(tilt) turns the planet frame into the world frame. Its
+    // row-major entries are the column-major form of R^T, the inverse we need.
+    look.orient = new Float32Array([cr, -sr * ct, sr * st, sr, cr * ct, -cr * st, 0, st, ct]);
+    look.rgb = look.colors.map(hexToRgb);
+    look.atmoRgb = hexToRgb(look.atmo);
+    look.spotRgb = hexToRgb(look.spotColor || '#000000');
+    look.ringRgb = hexToRgb(look.ringColor || '#000000');
+  }
+
+  function createRenderer() {
+    const glCanvas = document.createElement('canvas');
+    glCanvas.width = glCanvas.height = 4;
+    let gl = null;
+    try {
+      gl = glCanvas.getContext('webgl', {
+        alpha: false, antialias: false, depth: false, stencil: false,
+        premultipliedAlpha: false, preserveDrawingBuffer: false, powerPreference: 'high-performance'
+      });
+    } catch (error) { gl = null; }
+    if (!gl) return null;
+
+    const compile = (type, source) => {
+      const shader = gl.createShader(type);
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      if (gl.getShaderParameter(shader, gl.COMPILE_STATUS)) return shader;
+      console.warn('Planet shader failed to compile:', gl.getShaderInfoLog(shader));
+      return null;
+    };
+    const vs = compile(gl.VERTEX_SHADER, VERTEX_SHADER);
+    const fs = compile(gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
+    if (!vs || !fs) return null;
+    const program = gl.createProgram();
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.warn('Planet shader failed to link:', gl.getProgramInfoLog(program));
+      return null;
+    }
+    gl.useProgram(program);
+
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'aPos');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+
+    const u = {};
+    ['uRes', 'uRect', 'uView', 'uCenter', 'uFocal', 'uDist', 'uPitch', 'uBank', 'uTime', 'uSpeed', 'uSeed', 'uPix',
+     'uOrient', 'uLight', 'uKind', 'uC0', 'uC1', 'uC2', 'uC3', 'uGas', 'uSpot', 'uSpotCol', 'uRing', 'uRingCol',
+     'uAtmo', 'uRock'].forEach(name => { u[name] = gl.getUniformLocation(program, name); });
+
+    let lost = false;
+    glCanvas.addEventListener('webglcontextlost', event => { event.preventDefault(); lost = true; });
+
+    return {
+      canvas: glCanvas,
+      get usable() { return !lost; },
+      // Draws `look` seen through `view` for the CSS-pixel region `box`.
+      // Returns the part of the GL canvas that holds the picture.
+      render(look, view, box, time, speed, budget) {
+        const maxScale = Math.min(window.devicePixelRatio || 1, 2);
+        const scale = Math.max(.3, Math.min(maxScale, Math.sqrt(budget / Math.max(1, box.w * box.h))));
+        const w = Math.max(1, Math.round(box.w * scale));
+        const h = Math.max(1, Math.round(box.h * scale));
+        if (glCanvas.width < w || glCanvas.height < h) {
+          glCanvas.width = Math.max(glCanvas.width, w);
+          glCanvas.height = Math.max(glCanvas.height, h);
+        }
+        gl.viewport(0, 0, w, h);
+        const spot = look.spot || [0, 0, 1, 0];
+        const ring = look.ring || [0, 0, 0, 0];
+        gl.uniform2f(u.uRes, w, h);
+        gl.uniform4f(u.uRect, box.x, box.y, box.w, box.h);
+        gl.uniform2f(u.uView, innerWidth, innerHeight);
+        gl.uniform2f(u.uCenter, view.cx, view.cy);
+        gl.uniform1f(u.uFocal, view.f);
+        gl.uniform1f(u.uDist, view.dist);
+        gl.uniform1f(u.uPitch, view.pitch);
+        gl.uniform1f(u.uBank, view.bank);
+        gl.uniform1f(u.uTime, time);
+        gl.uniform1f(u.uSpeed, speed);
+        gl.uniform1f(u.uSeed, look.seed);
+        gl.uniform1f(u.uPix, 1 / (view.f * scale));
+        gl.uniformMatrix3fv(u.uOrient, false, look.orient);
+        gl.uniform3fv(u.uLight, LIGHT);
+        gl.uniform1f(u.uKind, look.kind);
+        gl.uniform3fv(u.uC0, look.rgb[0]);
+        gl.uniform3fv(u.uC1, look.rgb[1]);
+        gl.uniform3fv(u.uC2, look.rgb[2]);
+        gl.uniform3fv(u.uC3, look.rgb[3]);
+        gl.uniform4f(u.uGas, look.bands || 8, look.turbulence || 1, look.contrast || .3, look.streaks || 0);
+        gl.uniform4f(u.uSpot, spot[0], spot[1], spot[2], spot[3]);
+        gl.uniform3fv(u.uSpotCol, look.spotRgb);
+        gl.uniform4f(u.uRing, ring[0], ring[1], ring[2], ring[3]);
+        gl.uniform3fv(u.uRingCol, look.ringRgb);
+        gl.uniform4f(u.uAtmo, look.atmoRgb[0], look.atmoRgb[1], look.atmoRgb[2], look.atmoStrength);
+        gl.uniform4f(u.uRock, look.craters || 0, look.ice || 0, look.spin || 0, look.haze || .03);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        return { sx: 0, sy: glCanvas.height - h, sw: w, sh: h };
+      }
+    };
+  }
+
+  let gpu = null;
+  let budget = 650000;          // pixels per full-screen pass; adapts to the device
+  let frameAverage = 16;
+  let budgetClock = 0;
+
+  function adaptBudget(dt) {
+    if (dt > 100) return;
+    frameAverage += (dt - frameAverage) * .05;
+    budgetClock += dt;
+    if (budgetClock < 1000) return;
+    budgetClock = 0;
+    if (frameAverage > 22 && budget > 220000) budget *= .78;
+    else if (frameAverage < 13 && budget < 900000) budget *= 1.1;
+  }
+
+  // Camera for planet `key`. a = 0 shows the whole planet small in the portal;
+  // a = 1 is the close view used as the page background.
+  function viewFor(key, a, cx, cy, rect) {
+    const look = states[key].look;
+    const H = innerHeight;
+    const f = .95 * Math.max(innerWidth, H);
+    const rFar = Math.max(20, .34 * Math.min(rect.width, rect.height) / (look.extent || 1));
+    const dFar = Math.sqrt((f / rFar) ** 2 + 1);
+    const sFar = Math.log(dFar - 1);
+    const sClose = Math.log(look.close - 1);
+    const dist = 1 + Math.exp(sFar + (sClose - sFar) * a);
+    // Once the planet is big enough, tilt up so its horizon stays in place.
+    const lift = Math.asin(Math.min(1, 1 / dist)) - Math.atan((.5 - look.horizon) * H / f);
+    return { cx, cy, f, dist, pitch: Math.max(0, lift), bank: (look.bank || 0) * a * Math.PI / 180 };
+  }
+
+  // Very plain stand-in for browsers without WebGL.
+  function drawPlanetFlat(look, view, box) {
+    ctx.fillStyle = '#040404';
+    ctx.fillRect(box.x, box.y, box.w, box.h);
+    const r = view.f * Math.tan(Math.asin(Math.min(1, 1 / view.dist)));
+    const y = view.cy + view.f * Math.tan(view.pitch);
+    const gradient = ctx.createRadialGradient(view.cx - r * .3, y - r * .35, r * .05, view.cx, y, r);
+    gradient.addColorStop(0, look.colors[2]);
+    gradient.addColorStop(.55, look.colors[1]);
+    gradient.addColorStop(1, look.colors[0]);
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(view.cx, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function drawRendered(key, view, box, speed, now) {
+    if (box.w < 1 || box.h < 1) return false;
+    const look = states[key].look;
+    if (gpu && gpu.usable) {
+      const src = gpu.render(look, view, box, clockOf(key, now), speed, budget);
+      ctx.drawImage(gpu.canvas, src.sx, src.sy, src.sw, src.sh, box.x, box.y, box.w, box.h);
+      return true;
+    }
+    drawPlanetFlat(look, view, box);
+    return false;
+  }
+
+  /* ----------------------------------------------------------------
+     Canvas
+     ---------------------------------------------------------------- */
   function resizeCanvas() {
     const d = Math.min(window.devicePixelRatio || 1, 2);
-    sizeCanvas(canvas, ctx, d);
-    if (!frozen) sizeCanvas(sceneCanvas, sceneCtx, d);
+    canvas.width = innerWidth * d;
+    canvas.height = innerHeight * d;
+    canvas.style.width = `${innerWidth}px`;
+    canvas.style.height = `${innerHeight}px`;
+    ctx.setTransform(d, 0, 0, d, 0, 0);
     portalRadius = parseFloat(getComputedStyle(portal).borderTopLeftRadius) || 90;
     fitTitle();
   }
 
-  function drawCover(context, media) {
+  function mediaSize(media) {
+    if (media instanceof HTMLVideoElement) return media.readyState >= 2 ? [media.videoWidth, media.videoHeight] : null;
+    if (media instanceof HTMLImageElement) return media.complete ? [media.naturalWidth, media.naturalHeight] : null;
+    return [media.width, media.height];
+  }
+
+  // Draws media like `object-fit: cover`, optionally zoomed about (fx, fy).
+  function drawCover(context, media, zoom = 1, fx = innerWidth / 2, fy = innerHeight / 2) {
     if (!media) return;
-    const isVideo = media instanceof HTMLVideoElement;
-    if (isVideo ? media.readyState < 2 : !(media.complete && media.naturalWidth)) return;
-    const mw = media.videoWidth || media.naturalWidth || media.width;
-    const mh = media.videoHeight || media.naturalHeight || media.height;
-    if (!mw || !mh) return;
-    const scale = Math.max(innerWidth / mw, innerHeight / mh);
-    const w = mw * scale;
-    const h = mh * scale;
-    context.drawImage(media, (innerWidth - w) / 2, (innerHeight - h) / 2, w, h);
+    const size = mediaSize(media);
+    if (!size || !size[0] || !size[1]) return;
+    const scale = Math.max(innerWidth / size[0], innerHeight / size[1]);
+    const w = size[0] * scale;
+    const h = size[1] * scale;
+    const x = (innerWidth - w) / 2;
+    const y = (innerHeight - h) / 2;
+    context.drawImage(media, fx + (x - fx) * zoom, fy + (y - fy) * zoom, w * zoom, h * zoom);
   }
 
   function drawShade(context) {
@@ -516,8 +1100,38 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
     return [cx + xx * p, cy + yy * p];
   }
 
+  // The planet behind the portal: the intro video (DOM), a still frame, or a live render.
+  function drawBackground(now, rect) {
+    if (scene.mode === 'dom') return false;
+    let usedGpu = false;
+    if (scene.mode === 'still') drawCover(ctx, scene.media, scene.zoom);
+    else usedGpu = drawRendered(current, viewFor(current, 1, innerWidth / 2, innerHeight / 2, rect),
+      { x: 0, y: 0, w: innerWidth, h: innerHeight }, 0, now);
+    drawShade(ctx);
+    return usedGpu;
+  }
+
+  // What shows inside the portal window.
+  function drawWindow(now, cx, cy, rx, ry, box, rect) {
+    if (travelState) {
+      const { target, arrival } = travelState;
+      if (arrival.mode === 'clip') drawCover(ctx, transitionVideo);
+      else if (arrival.mode === 'still') drawCover(ctx, arrival.media, 1 + (STILL_ZOOM - 1) * travelState.zoom, cx, cy);
+      else return drawRendered(target, viewFor(target, travelState.approach, cx, cy, rect), box, travelState.speed, now);
+      return false;
+    }
+    const key = pendingTarget || nextOf(current);
+    const arrival = arrivalOf(key);
+    if (arrival.mode === 'clip') drawCover(ctx, portalVideoKey === key ? portalVideo : transitionVideo);
+    else if (arrival.mode === 'still') drawCover(ctx, arrival.media);
+    // A little parallax: the far planet drifts toward the pointer as the window tilts.
+    else return drawRendered(key, viewFor(key, 0, cx + ry * .9, cy - rx * .9, rect), box, 0, now);
+    return false;
+  }
+
   function draw(now) {
-    const dt = Math.min(40, Math.max(0, now - lastFrame));
+    const rawDt = now - lastFrame;
+    const dt = Math.min(40, Math.max(0, rawDt));
     lastFrame = now;
     const k = Math.min(1, dt * .009);
     rotX += (targetX - rotX) * k;
@@ -527,13 +1141,10 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
     const H = innerHeight;
     ctx.clearRect(0, 0, W, H);
 
-    if (frozen) {
-      ctx.drawImage(sceneCanvas, 0, 0, W, H);
-      drawShade(ctx);
-    }
-
     const rect = portal.getBoundingClientRect();
     const e = expansion;
+    let usedGpu = e < 1 ? drawBackground(now, rect) : false;
+
     const rcx = rect.left + rect.width / 2;
     const rcy = rect.top + rect.height / 2;
     const cx = rcx + (W / 2 - rcx) * e;
@@ -548,32 +1159,30 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
     const ry = rotY * (1 - e);
 
     if (w > 1 && h > 1) {
-      const points = roundedRectPoints(w, h, r);
+      const points = roundedRectPoints(w, h, r).map(([x, y]) => project(x, y, rx, ry, cx, cy));
+      let minX = W, minY = H, maxX = 0, maxY = 0;
       ctx.save();
       ctx.globalAlpha = canvasOpacity;
       ctx.beginPath();
-      points.forEach(([x, y], i) => {
-        const [sx, sy] = project(x, y, rx, ry, cx, cy);
+      points.forEach(([sx, sy], i) => {
         if (i) ctx.lineTo(sx, sy); else ctx.moveTo(sx, sy);
+        minX = Math.min(minX, sx); maxX = Math.max(maxX, sx);
+        minY = Math.min(minY, sy); maxY = Math.max(maxY, sy);
       });
       ctx.closePath();
       ctx.clip();
       ctx.fillStyle = '#030303';
       ctx.fillRect(0, 0, W, H);
-      drawCover(ctx, transitionActive ? transitionVideo : currentPortalMedia());
-      if (transitionActive) drawShade(ctx);
+      const x0 = Math.max(0, Math.floor(minX));
+      const y0 = Math.max(0, Math.floor(minY));
+      const box = { x: x0, y: y0, w: Math.min(W, Math.ceil(maxX)) - x0, h: Math.min(H, Math.ceil(maxY)) - y0 };
+      if (drawWindow(now, cx, cy, rx, ry, box, rect)) usedGpu = true;
+      if (travelState) drawShade(ctx);
       ctx.restore();
     }
 
+    if (usedGpu) adaptBudget(rawDt);
     requestAnimationFrame(draw);
-  }
-
-  function freezeFrame() {
-    // Re-fit the buffer to the viewport (also clears it), then hold the frame.
-    sizeCanvas(sceneCanvas, sceneCtx, Math.min(window.devicePixelRatio || 1, 2));
-    sceneCtx.clearRect(0, 0, innerWidth, innerHeight);
-    drawCover(sceneCtx, transitionVideo);
-    frozen = true;
   }
 
   /* ----------------------------------------------------------------
@@ -590,7 +1199,7 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   }
 
   async function startExperience() {
-    await waitForMedia(currentPortalMedia());
+    await waitForMedia(previewMedia(nextOf(current)));
     await revealMask();
     document.body.classList.add('intro-ready');
     ready = true;
@@ -600,39 +1209,77 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   /* ----------------------------------------------------------------
      Travel
      ---------------------------------------------------------------- */
-  async function travel() {
-    if (!ready || busy || current === 'venus') return;
+  async function travel(target = nextOf(current)) {
+    if (!ready || busy || !states[target] || target === current) return;
     busy = true;
     targetX = 0;
     targetY = 0;
     cursor.classList.remove('is-enter');
-    const next = current === 'mars' ? 'earth' : 'venus';
+    if (epochs[target] === undefined || target !== nextOf(current)) epochs[target] = performance.now();
+    pendingTarget = target;
+    setHeading(target);
+    let arrival = arrivalOf(target);
 
     try {
-      transitionVideo.src = states[current].portal;
-      transitionVideo.load();
-      experience.classList.add('is-loading');
-      await waitFor(transitionVideo, ['canplaythrough', 'error'], 1600);
+      if (arrival.mode === 'clip') {
+        transitionVideo.src = arrival.clip;
+        transitionVideo.load();
+        experience.classList.add('is-loading');
+        await waitFor(transitionVideo, ['canplaythrough', 'error'], 1600);
+        if (transitionVideo.error) {
+          failed.add(target);
+          arrival = { mode: 'render' };
+        }
+      }
 
       experience.classList.remove('is-loading', 'content-revealing', 'mask-revealing');
       experience.classList.add('is-transitioning');
-      transitionVideo.currentTime = 0;
-      transitionVideo.playbackRate = 1.3;
       canvasOpacity = 1;
-      transitionActive = true;
-      await transitionVideo.play();
+      travelState = { target, arrival, approach: 0, zoom: 0, speed: 0 };
 
-      await animateValue(v => { expansion = v; }, 1100);
-      await waitForEnd(transitionVideo);
-      freezeFrame();
+      if (arrival.mode === 'clip') {
+        transitionVideo.currentTime = 0;
+        transitionVideo.playbackRate = 1.3;
+        try {
+          await transitionVideo.play();
+        } catch (error) {
+          // The video would not play: fly there with the renderer instead.
+          failed.add(target);
+          arrival = travelState.arrival = { mode: 'render' };
+        }
+      }
 
-      current = next;
+      if (arrival.mode === 'clip') {
+        await animateValue(v => { expansion = v; }, 1100);
+        await waitForEnd(transitionVideo);
+        const frame = captureFrame(transitionVideo);
+        if (frame) stills[target] = frame;
+        scene = frame ? { mode: 'still', media: frame, zoom: 1 } : { mode: 'render' };
+      } else if (arrival.mode === 'still') {
+        await Promise.all([
+          animateValue(v => { expansion = v; }, 1100),
+          animateValue(v => { travelState.zoom = v; }, 1900)
+        ]);
+        scene = { mode: 'still', media: arrival.media, zoom: STILL_ZOOM };
+      } else {
+        await Promise.all([
+          animateValue(v => { expansion = v; }, 1100),
+          animate(t => {
+            travelState.approach = ease(t);
+            travelState.speed = Math.sin(Math.PI * t);
+          }, 3000)
+        ]);
+        scene = { mode: 'render' };
+      }
+
+      current = target;
+      pendingTarget = null;
       experience.classList.add('is-committing');
       render();
       await nextFrame();
       await nextFrame();
 
-      transitionActive = false;
+      travelState = null;
       expansion = 0;
       maskScale = 0;
       canvasOpacity = 1;
@@ -643,15 +1290,19 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
       await maskReveal;
 
       await wait(450);
-      transitionVideo.removeAttribute('src');
-      transitionVideo.load();
+      if (arrival.mode === 'clip') {
+        transitionVideo.removeAttribute('src');
+        transitionVideo.load();
+      }
       busy = false;
     } catch (error) {
       console.warn('Portal travel interrupted:', error);
-      transitionActive = false;
+      travelState = null;
+      pendingTarget = null;
       expansion = 0;
       maskScale = 1;
       canvasOpacity = 1;
+      setHeading(nextOf(current));
       experience.classList.remove('is-loading', 'is-transitioning', 'is-committing');
       transitionVideo.pause();
       // Bring the chrome back if it had already been cleared.
@@ -661,7 +1312,16 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
     }
   }
 
-  portal.addEventListener('click', travel);
+  portal.addEventListener('click', () => travel());
+  planetList.addEventListener('click', event => {
+    const item = event.target.closest('[data-planet]');
+    if (item) travel(item.dataset.planet);
+  });
+
+  // If a planet's media cannot load, draw that planet instead of showing black.
+  portalVideo.addEventListener('error', () => failed.add(portalVideoKey));
+  portalImage.addEventListener('error', () => failed.add('mercury'));
+  preloaderVideo.addEventListener('ended', () => { stills.mars = captureFrame(preloaderVideo); });
 
   /* ----------------------------------------------------------------
      Pointer: tilt + custom cursor
@@ -708,6 +1368,12 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
 
   portal.addEventListener('pointerenter', () => cursor.classList.add('is-enter'));
   portal.addEventListener('pointerleave', () => cursor.classList.remove('is-enter'));
+  planetList.addEventListener('pointerover', event => {
+    if (event.target.closest('[data-planet]')) cursor.classList.add('is-hover');
+  });
+  planetList.addEventListener('pointerout', event => {
+    if (event.target.closest('[data-planet]')) cursor.classList.remove('is-hover');
+  });
 
   function cursorLoop() {
     cursorX += (pointerX - cursorX) * .2;
@@ -742,6 +1408,11 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
       finished = true;
       cancelAnimationFrame(raf);
       clearTimeout(safety);
+      // No intro picture to stand in for Mars: draw Mars instead.
+      if (video.error || video.readyState < 2) {
+        failed.add('mars');
+        if (current === 'mars') scene = { mode: 'render' };
+      }
       preloaderValue.textContent = '100';
       preloaderCount.classList.add('is-leaving');
       floatingLogo.classList.add('is-docked');
@@ -775,6 +1446,9 @@ body:not(.intro-ready) .header,.planet-list,.planet-content h1,.planet-content .
   /* ----------------------------------------------------------------
      Boot
      ---------------------------------------------------------------- */
+  Object.values(states).forEach(state => prepareLook(state.look));
+  gpu = createRenderer();
+
   window.addEventListener('resize', resizeCanvas);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTitle);
 
